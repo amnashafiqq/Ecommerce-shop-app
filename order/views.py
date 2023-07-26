@@ -7,4 +7,6 @@ def items_list(request):
         'items': Item.objects.all()
     }
     return render(request,"./order/home.html",context)
+def product_detail(request):
+    return render(request,"./order/product-page.html")
     

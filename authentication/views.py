@@ -22,8 +22,6 @@ class RegisterView(APIView):
     def get(self, request):
         return render(request, "authentication/Signup.html")
      
-    
-
 class LoginView(View):
     def post(self, request):
         email = request.POST.get('email')
@@ -32,24 +30,19 @@ class LoginView(View):
 
         if user is not None:
             login(request, user)
-
             # Create JWT token
             payload = {
                 'id': user.id,
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
                 'iat': datetime.datetime.utcnow()
             }
-
             token = jwt.encode(payload, 'your_secret_key', algorithm='HS256')
-
             # Create a response with a cookie and redirect to home_page
-            response = redirect('home_page')
+            response = redirect('itemslist')
             response.set_cookie(key='jwt', value=token, httponly=True)
             return response
         else:
             return HttpResponse('Invalid credentials. Please try again.')
-
-
     def get(self, request):
         return render(request, "authentication/Login.html")
      
@@ -65,6 +58,7 @@ class UserView(APIView):
         user = User.objects.filter(id=payload['id']).first()
         serializer = UserSerializer(user)
         return Response(serializer.data)
+    
 class LogoutView(APIView):
     def post(self,request):
         response = Response()
