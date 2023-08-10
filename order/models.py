@@ -59,4 +59,11 @@ class Order(models.Model):
     ordered = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return f"Order #{self.pk} by {self.user.email} - Ordered: {self.ordered}"
+
+
+
+# __str__ method in a Django model is used to define a human-readable string representation of an 
+# instance of that model. When you try to convert an instance of the model to a string (e.g., when it's 
+# displayed in the admin panel or used in print statements), Django calls the __str__ method to determine
+#  what text should be displayed.

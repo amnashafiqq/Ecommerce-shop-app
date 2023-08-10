@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
+# from django.http import Response
+
 from .models import User
 from .serializers import UserSerializer
 from rest_framework.exceptions import AuthenticationFailed
@@ -38,7 +40,7 @@ class LoginView(View):
             }
             token = jwt.encode(payload, 'your_secret_key', algorithm='HS256')
             # Create a response with a cookie and redirect to home_page
-            response = redirect('itemslist')
+            response = redirect('order:itemslist')
             response.set_cookie(key='jwt', value=token, httponly=True)
             return response
         else:
@@ -59,15 +61,17 @@ class UserView(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
     
-class LogoutView(APIView):
-    def post(self,request):
+class LogoutView(View):
+    def post(self, request):
         response = Response()
-        response.delete_cookie('jwt')
+        response.set_cookie(key='jwt', value='', expires=0)  # Clear the cookie by setting an expired date
         response.data = {
-            'message':'success'
+            'message': 'success'
         }
-        return response
+        return response  # Return the response to send it back to the user
 
+    def get(self, request):
+        return render(request, "authentication/Login.html")
 class HomeView(View):
     def get(self,request):
          if request.user.is_authenticated:
