@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_bootstrap5',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +63,8 @@ ROOT_URLCONF = 'shop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'authentication', 'templates')],  # Adjust the directory path as needed
+        # 'DIRS': [os.path.join(BASE_DIR, 'authentication', 'templates')],  # Adjust the directory path as needed
+        'DIRS': ["templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +79,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'shop.wsgi.application'
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

@@ -1,4 +1,5 @@
 # Django #
+node_modules
 *.log
 *.pot
 *.pyc
